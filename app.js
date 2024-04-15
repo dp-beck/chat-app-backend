@@ -6,8 +6,8 @@ import cors from 'cors';
 import compression from 'compression';
 import helmet from 'helmet';
 
-import { RateLimit } from 'express-rate-limit';
-const limiter = RateLimit({
+import { rateLimit } from 'express-rate-limit';
+const limiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
     max: 20,
   });
