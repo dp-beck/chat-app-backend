@@ -3,6 +3,14 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
+import compression from 'compression';
+import helmet from 'helmet';
+
+import { RateLimit } from 'express-rate-limit';
+const limiter = RateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 20,
+  });
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -30,6 +38,14 @@ async function main() {
 
 const app = express();
 
+app.use(compression());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
+        },
+    }),
+);
+app.use(limiter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
