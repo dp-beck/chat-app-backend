@@ -10,6 +10,10 @@ import http from 'http';
 import { Server } from 'socket.io';
 const debug = debugLib('backend:server');
 
+// Different URIs for dev versus prod envinroment
+
+const frontendDEV = 'http://localhost:5173';
+const frontendPROD = 'https://chat-app-frontend-0wt0.onrender.com';
 
 /**
  * Get port from environment and store in Express.
@@ -26,7 +30,7 @@ app.set('port', port);
 var server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://chat-app-frontend-0wt0.onrender.com"
+    origin: frontendPROD
   }
 });
 
@@ -100,7 +104,7 @@ function onListening() {
 
 // Listen for 'connection' event on IO
 io.on('connection', (socket) => {
-  socket.on("newMessageSent", (arg) => {
-    socket.emit("newMessageReceived", arg);
+  socket.on("chat message", (arg) => {
+    io.emit("chat message", arg);
   });
 });
