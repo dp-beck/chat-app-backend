@@ -9,11 +9,7 @@ import debugLib from 'debug';
 import http from 'http';
 import { Server } from 'socket.io';
 const debug = debugLib('backend:server');
-
-// Different URIs for dev versus prod envinroment
-
-const frontendDEV = 'http://localhost:5173';
-const frontendPROD = 'https://chat-app-frontend-0wt0.onrender.com';
+import url from '../devState.js';
 
 /**
  * Get port from environment and store in Express.
@@ -30,7 +26,7 @@ app.set('port', port);
 var server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: frontendPROD
+    origin: url
   }
 });
 
