@@ -7,4 +7,4 @@ if (devState == true) {
     url = 'https://chat-app-frontend-0wt0.onrender.com';
 }
 
-export default {url};
+export default url;
